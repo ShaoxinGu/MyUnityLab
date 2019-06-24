@@ -69,6 +69,7 @@
     <Compile Include="Assets\GFramework\MyAlgorithm\MyQuickSort.cs" />
     <Compile Include="Assets\GFramework\Utility\MathUtility.cs" />
     <Compile Include="Assets\GFramework\Utility\ResolutionUtility.cs" />
+    <Compile Include="Assets\UI\CSharp\Test.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Documents/MyUnityLab/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
