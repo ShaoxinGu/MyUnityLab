@@ -1,0 +1,19 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class #Name# : MonoBehaviour
+{#Definition#
+	private void Awake()
+	{
+		InitUI();
+		AddListener();
+	}
+
+	private void InitUI()
+	{#Assignment#
+	}
+
+	private void AddListener()
+	{#Binding#
+	}
+#ListenerDefinition#}
