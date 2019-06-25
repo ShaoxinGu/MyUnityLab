@@ -72,17 +72,15 @@ namespace GFramework
                     GUILayout.Space(20);
                     if (GUILayout.Button("保存Lua"))
                     {
-                        CheckDirectory();
+                        PreCheckLua();
                         CreateLuaScript();
                         _instance.Close();
                     }
 
                     if (GUILayout.Button("保存C#"))
                     {
-                        CheckDirectory();
+                        PreCheckCSharp();
                         GenerateCSharpScript();
-                        Debug.Log("6666666666666");
-                        AssetDatabase.Refresh();
                         _instance.Close();
                     }
 
@@ -126,6 +124,7 @@ namespace GFramework
             script = script.Replace("#ListenerDefinition#", listenerDefinition.ToString());
             File.WriteAllText(savePath, script.ToString());
             File.WriteAllText(REFRESH_FLAG_PATH, _saveName + " " + _rootInfo.Name + " " + _rootObject.GetInstanceID().ToString());
+            AssetDatabase.Refresh();
         }
 
         [UnityEditor.Callbacks.DidReloadScripts]
@@ -133,7 +132,6 @@ namespace GFramework
         {
             if(File.Exists(REFRESH_FLAG_PATH))
             {
-                Debug.Log("888888888888");
                 string[] info = AssetDatabase.LoadAssetAtPath<TextAsset>(REFRESH_FLAG_PATH).text.Split(' ');
                 string scriptName = info[0];
                 string prefabName = info[0];
@@ -142,43 +140,22 @@ namespace GFramework
                 string prefabPath = string.Format("{0}/{1}.prefab", PREFAB_SAVE_PATH, prefabName);
                 GameObject refreshObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
                 
-                Type type = typen(scriptName);
-                refreshObject.AddComponent(type);
-                PrefabUtility.CreatePrefab(prefabPath, refreshObject);
-                File.Delete(REFRESH_FLAG_PATH);
-            }
-        }
-
-        static Type typen(string typeName)
-        {
-            Type type = null;
-            Assembly[] assemblyArray = AppDomain.CurrentDomain.GetAssemblies();
-            int assemblyArrayLength = assemblyArray.Length;
-            for (int i = 0; i < assemblyArrayLength; ++i)
-            {
-                type = assemblyArray[i].GetType(typeName);
-                if (type != null)
+                foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    return type;
-                }
-            }
-
-            for (int i = 0; (i < assemblyArrayLength); ++i)
-            {
-                Type[] typeArray = assemblyArray[i].GetTypes();
-                int typeArrayLength = typeArray.Length;
-                for (int j = 0; j < typeArrayLength; ++j)
-                {
-                    if (typeArray[j].Name.Equals(typeName))
+                    Type type = asm.GetType(scriptName);
+                    if (type != null)
                     {
-                        return typeArray[j];
+                        refreshObject.AddComponent(type);
+                        break;
                     }
                 }
+
+                PrefabUtility.SaveAsPrefabAsset(refreshObject, prefabPath);
+                //PrefabUtility.CreatePrefab(prefabPath, refreshObject);
+                File.Delete(REFRESH_FLAG_PATH);
+                AssetDatabase.Refresh();
             }
-            return type;
-
         }
-
 
         private static void CreateCSharpScript(NodeInfo nodeInfo, ref StringBuilder definition, ref StringBuilder assignment, ref StringBuilder binding, ref StringBuilder listenerDefinition, bool isRoot = true, string findPath = "")
         {
@@ -230,12 +207,53 @@ namespace GFramework
             }
         }
 
-        private static void CheckDirectory()
+        private static void PreCheckLua()
+        {
+
+        }
+
+        private static void PreCheckCSharp()
         {
             Directory.CreateDirectory(GENERATE_ROOT_PATH);
             Directory.CreateDirectory(PREFAB_SAVE_PATH);
             Directory.CreateDirectory(CSHARP_SAVE_PATH);
-            Directory.CreateDirectory(LUA_SAVE_PATH);
+            if (AssetDatabase.IsMainAssetAtPathLoaded(REFRESH_FLAG_PATH))
+            {
+                AssetDatabase.DeleteAsset(REFRESH_FLAG_PATH);
+            }
+
+            Type generateType = null;
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Type type = asm.GetType(_saveName);
+                if (type != null)
+                {
+                    generateType = type;
+                    break;
+                }
+            }
+
+            if (generateType != null)
+            {
+                foreach (var component in _rootObject.GetComponents<Component>())
+                {
+                    if (component.GetType() == generateType)
+                    {
+                        DestroyImmediate(component);
+                    }
+                }
+            }
+
+            string scriptSavePath = string.Format("{0}/{1}.cs", CSHARP_SAVE_PATH, _saveName);
+            if (AssetDatabase.IsMainAssetAtPathLoaded(scriptSavePath))
+            {
+                AssetDatabase.DeleteAsset(scriptSavePath);
+            }
+            string prefabSavePath = string.Format("{0}/{1}.prefab", PREFAB_SAVE_PATH, _rootInfo.Name);
+            if (AssetDatabase.IsMainAssetAtPathLoaded(prefabSavePath))
+            {
+                AssetDatabase.DeleteAsset(prefabSavePath);
+            }
         }
 
         private static void ShowHierarchy(NodeInfo nodeInfo, int level = 1)
