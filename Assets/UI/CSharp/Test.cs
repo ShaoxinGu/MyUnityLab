@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Test : MonoBehaviour
@@ -56,7 +56,7 @@ public class Test : MonoBehaviour
 	}
 
 	private void OnBtnBuy1Click()
-	{
+    {
 
-	}
+    }
 }

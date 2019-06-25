@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -12,16 +11,19 @@ namespace GFramework
 {
     public class UIGenerator : EditorWindow
     {
+  
+
         private const string SCRIPT_TEMPLATE_PATH = "Assets/GFramework/Editor/UIGenerator/ScriptTemplate.cs.txt";
         private const string GENERATE_ROOT_PATH = "Assets/UI";
         private const string PREFAB_SAVE_PATH = GENERATE_ROOT_PATH + "/Prefab";
         private const string CSHARP_SAVE_PATH = GENERATE_ROOT_PATH + "/CSharp";
+        private const string REFRESH_FLAG_PATH = CSHARP_SAVE_PATH + "/refresh.txt";
         private const string LUA_SAVE_PATH = GENERATE_ROOT_PATH + "/Lua";
 
-        private static UIGenerator _instance;
-        private static GameObject _rootObject;
-        private static NodeInfo _rootInfo;
         private static string _saveName = null;
+        private static UIGenerator _instance = null;
+        private static GameObject _rootObject = null;
+        private static NodeInfo _rootInfo = null;
         private static Dictionary<string, int> _nameDict = new Dictionary<string, int>();
 
         [MenuItem("GameObject/GFramework/一键生成代码", false, 0)]
@@ -71,7 +73,7 @@ namespace GFramework
                     if (GUILayout.Button("保存Lua"))
                     {
                         CheckDirectory();
-                        CreateLuaScript(_rootInfo);
+                        CreateLuaScript();
                         _instance.Close();
                     }
 
@@ -79,6 +81,8 @@ namespace GFramework
                     {
                         CheckDirectory();
                         GenerateCSharpScript();
+                        Debug.Log("6666666666666");
+                        AssetDatabase.Refresh();
                         _instance.Close();
                     }
 
@@ -97,7 +101,7 @@ namespace GFramework
             }
         }
 
-        private static void CreateLuaScript(NodeInfo nodeInfo)
+        private static void CreateLuaScript()
         {
 
         }
@@ -120,10 +124,61 @@ namespace GFramework
             script = script.Replace("#Assignment#", assignment.ToString());
             script = script.Replace("#Binding#", binding.ToString());
             script = script.Replace("#ListenerDefinition#", listenerDefinition.ToString());
-
-            File.WriteAllText(savePath, script.ToString(), Encoding.UTF8);
-            AssetDatabase.Refresh();
+            File.WriteAllText(savePath, script.ToString());
+            File.WriteAllText(REFRESH_FLAG_PATH, _saveName + " " + _rootInfo.Name + " " + _rootObject.GetInstanceID().ToString());
         }
+
+        [UnityEditor.Callbacks.DidReloadScripts]
+        private static void BindScriptAfterCompile()
+        {
+            if(File.Exists(REFRESH_FLAG_PATH))
+            {
+                Debug.Log("888888888888");
+                string[] info = AssetDatabase.LoadAssetAtPath<TextAsset>(REFRESH_FLAG_PATH).text.Split(' ');
+                string scriptName = info[0];
+                string prefabName = info[0];
+                int instanceID = int.Parse(info[2]);
+                string scriptPath = string.Format("{0}/{1}.cs", CSHARP_SAVE_PATH, scriptName);
+                string prefabPath = string.Format("{0}/{1}.prefab", PREFAB_SAVE_PATH, prefabName);
+                GameObject refreshObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
+                
+                Type type = typen(scriptName);
+                refreshObject.AddComponent(type);
+                PrefabUtility.CreatePrefab(prefabPath, refreshObject);
+                File.Delete(REFRESH_FLAG_PATH);
+            }
+        }
+
+        static Type typen(string typeName)
+        {
+            Type type = null;
+            Assembly[] assemblyArray = AppDomain.CurrentDomain.GetAssemblies();
+            int assemblyArrayLength = assemblyArray.Length;
+            for (int i = 0; i < assemblyArrayLength; ++i)
+            {
+                type = assemblyArray[i].GetType(typeName);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+
+            for (int i = 0; (i < assemblyArrayLength); ++i)
+            {
+                Type[] typeArray = assemblyArray[i].GetTypes();
+                int typeArrayLength = typeArray.Length;
+                for (int j = 0; j < typeArrayLength; ++j)
+                {
+                    if (typeArray[j].Name.Equals(typeName))
+                    {
+                        return typeArray[j];
+                    }
+                }
+            }
+            return type;
+
+        }
+
 
         private static void CreateCSharpScript(NodeInfo nodeInfo, ref StringBuilder definition, ref StringBuilder assignment, ref StringBuilder binding, ref StringBuilder listenerDefinition, bool isRoot = true, string findPath = "")
         {

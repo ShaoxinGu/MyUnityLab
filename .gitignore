@@ -9,3 +9,4 @@ Temp/
 ProjectSettings/
 UnityPackageManager/
 MyUnityLab.sln
+*.user
