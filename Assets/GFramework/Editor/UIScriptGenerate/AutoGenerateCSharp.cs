@@ -25,8 +25,8 @@ namespace GFramework.Editor.AutoGenerateScript
             if (Selection.activeGameObject.tag == "UIView")
             {
                 string prefabPath = string.Format("{0}/{1}.prefab", PREFAB_FILE_PATH, Selection.activeGameObject.name);
-                PrefabUtility.SaveAsPrefabAsset(Selection.activeGameObject, prefabPath);
-                //PrefabUtility.CreatePrefab(prefabPath, Selection.activeGameObject);
+                //PrefabUtility.SaveAsPrefabAsset(Selection.activeGameObject, prefabPath);
+                PrefabUtility.CreatePrefab(prefabPath, Selection.activeGameObject);
 
                 string basePath = string.Format("{0}/{1}{2}.cs", SCRIPT_FILE_PATH, "UI", Selection.activeGameObject.name);
                 string script = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/GFramework/Editor/UIScriptGenerate/UIBase.cs.txt").text;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -11,8 +10,6 @@ namespace GFramework
 {
     public class UIGenerator : EditorWindow
     {
-  
-
         private const string SCRIPT_TEMPLATE_PATH = "Assets/GFramework/Editor/UIGenerator/ScriptTemplate.cs.txt";
         private const string GENERATE_ROOT_PATH = "Assets/UI";
         private const string PREFAB_SAVE_PATH = GENERATE_ROOT_PATH + "/Prefab";
@@ -98,12 +95,18 @@ namespace GFramework
                 GUILayout.EndHorizontal();
             }
         }
-
+        
+        /// <summary>
+        /// 生成Lua代码
+        /// </summary>
         private static void CreateLuaScript()
         {
 
         }
 
+        /// <summary>
+        /// 生成C#代码
+        /// </summary>
         private static void GenerateCSharpScript()
         {
             string savePath = $"{CSHARP_SAVE_PATH}/{_saveName}.cs";
@@ -136,7 +139,6 @@ namespace GFramework
                 string scriptName = info[0];
                 string prefabName = info[0];
                 int instanceID = int.Parse(info[2]);
-                string scriptPath = string.Format("{0}/{1}.cs", CSHARP_SAVE_PATH, scriptName);
                 string prefabPath = string.Format("{0}/{1}.prefab", PREFAB_SAVE_PATH, prefabName);
                 GameObject refreshObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
                 
@@ -150,8 +152,8 @@ namespace GFramework
                     }
                 }
 
-                PrefabUtility.SaveAsPrefabAsset(refreshObject, prefabPath);
-                //PrefabUtility.CreatePrefab(prefabPath, refreshObject);
+                //PrefabUtility.SaveAsPrefabAsset(refreshObject, prefabPath);
+                PrefabUtility.CreatePrefab(prefabPath, refreshObject);
                 File.Delete(REFRESH_FLAG_PATH);
                 AssetDatabase.Refresh();
             }

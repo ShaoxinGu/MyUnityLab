@@ -226,9 +226,10 @@ public static class AutoGenerateLua
     public static void HandlerPrefab(GameObject gameObject)
     {
         string prefabPath = string.Format("{0}/{1}.prefab", PREFAB_FILE_PATH, gameObject.name);
-        PrefabUtility.SaveAsPrefabAsset(gameObject,prefabPath);
-        //PrefabUtility.CreatePrefab(prefabPath, gameObject);
+        //PrefabUtility.SaveAsPrefabAsset(gameObject,prefabPath);
+        PrefabUtility.CreatePrefab(prefabPath, gameObject);
     }
+
 
     public static void HandlerUiNode(string parentUiName, bool isChildUiSetGameObject, string saveDirName, UiNode uiNode)
     {
