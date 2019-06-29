@@ -6,7 +6,7 @@ namespace GFramework
     {
         void Start()
         {
-            UIManager.GetInstance().ShowUI("TestPanel");
+            UIManager.GetInstance().OpenUI("TestPanel");
         }
     }
 }

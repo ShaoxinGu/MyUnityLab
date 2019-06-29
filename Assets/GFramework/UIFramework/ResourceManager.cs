@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 
 namespace GFramework
 {
     public class ResourcesMgr : MonoBehaviour
     {
-        private static ResourcesMgr _Instance;              //本脚本私有单例实例
-        private Hashtable hashTable = null;                        //容器键值对集合
+        private static ResourcesMgr instance;       //本脚本私有单例实例
+        private Hashtable hashTable = null;         //容器键值对集合
 
         /// <summary>
         /// 得到单例
@@ -18,11 +15,11 @@ namespace GFramework
         /// <returns></returns>
         public static ResourcesMgr GetInstance()
         {
-            if (_Instance == null)
+            if (instance == null)
             {
-                _Instance = new GameObject("ResourceMgr").AddComponent<ResourcesMgr>();
+                instance = new GameObject("ResourceMgr").AddComponent<ResourcesMgr>();
             }
-            return _Instance;
+            return instance;
         }
 
         void Awake()
@@ -31,7 +28,7 @@ namespace GFramework
         }
 
         /// <summary>
-        /// 加载资源，并自动缓存
+        /// 加载资源（自动缓存）
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="path">资源路径</param>
@@ -58,7 +55,7 @@ namespace GFramework
         }
 
         /// <summary>
-        /// 实例化资源
+        /// 加载并实例化资源
         /// </summary>
         /// <param name="path">资源路径</param>
         /// <param name="isCache">是否缓存</param>
