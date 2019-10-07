@@ -1,0 +1,9 @@
+{
+	"UIPathList":
+	[
+		{
+			"UIName" : "TestPanel",
+			"UIPath" : "Prefab/TestPanel"
+		}
+	]
+}

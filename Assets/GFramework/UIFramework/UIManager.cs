@@ -46,9 +46,10 @@ namespace GFramework
             transFixed = transRoot.Find("Fixed");
             transPopUp = transRoot.Find("PopUp");
 
-
-            dictUIPath.Add("TestPanel", "Prefab/TestPanel");
+            GetUIPathInfoFromJson();
+            //dictUIPath.Add("TestPanel", "Prefab/TestPanel");
         }
+
 
         /// <summary>
         /// 显示UI
@@ -168,6 +169,17 @@ namespace GFramework
 
             Debug.Log("出现不可以预估的错误，请检查，参数 uiFormName=" + uiName);
             return null;
+        }
+
+        private void GetUIPathInfoFromJson()
+        {
+            TextAsset textAsset = Resources.Load<TextAsset>("Json/UIPanelPath");
+            Debug.Log(textAsset.text);
+            UIPathInfos uiPathInfo = JsonUtility.FromJson<UIPathInfos>(textAsset.text);
+            foreach (var pathInfo in uiPathInfo.UIPathList)
+            {
+                dictUIPath.Add(pathInfo.UIName, pathInfo.UIPath);
+            }
         }
     }
 }

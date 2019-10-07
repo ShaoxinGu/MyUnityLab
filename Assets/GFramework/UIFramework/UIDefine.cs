@@ -1,8 +1,24 @@
-﻿namespace GFramework
+﻿using System;
+using System.Collections.Generic;
+
+namespace GFramework
 {
     public class UIDefine
     {
         public static string UIRootPath = "UIRoot";
+    }
+
+    [Serializable]
+    class UIPathInfos
+    {
+        public List<UIPathInfo> UIPathList = new List<UIPathInfo>();
+    }
+
+    [Serializable]
+    public class UIPathInfo
+    {
+        public string UIName;
+        public string UIPath;
     }
 
     //UI类型
