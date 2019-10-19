@@ -152,8 +152,7 @@ namespace GFramework
                     }
                 }
 
-                //PrefabUtility.SaveAsPrefabAsset(refreshObject, prefabPath);
-                PrefabUtility.CreatePrefab(prefabPath, refreshObject);
+                PrefabUtility.SaveAsPrefabAsset(refreshObject, prefabPath);
                 File.Delete(REFRESH_FLAG_PATH);
                 AssetDatabase.Refresh();
             }
