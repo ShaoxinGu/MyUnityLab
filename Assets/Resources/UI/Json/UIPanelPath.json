@@ -2,8 +2,13 @@
 	"UIPathList":
 	[
 		{
-			"UIName" : "TestPanel",
-			"UIPath" : "UI/Prefab/TestPanel"
+			"UIName": "UIMain",
+			"UIPath": "UI/Prefab/UIMain"
+		},
+
+		{
+			"UIName": "UIMail",
+			"UIPath": "UI/Prefab/UIMail"
 		}
 	]
 }

@@ -4,9 +4,14 @@ namespace GFramework
 {
     public class StartGame : MonoBehaviour
     {
+        private void Awake()
+        {
+            RedDotManager.Instance.Initilize();
+        }
+
         void Start()
         {
-            UIMgr.GetInstance().OpenUI("TestPanel");
+            UIMgr.Instance().OpenUI("UIMain");
         }
     }
 }

@@ -5,10 +5,18 @@ namespace GFramework
 {
     public class UIMgr : MonoBehaviour
     {
-        private static UIMgr instance = null;
-        
+        private static UIMgr _instance = null;
+        public static UIMgr Instance()
+        {
+            if (_instance == null)
+            {
+                _instance = new GameObject("UIManager").AddComponent<UIMgr>();
+            }
+            return _instance;
+        }
+
         private Dictionary<string, string> dictPath;    //UI路径
-        private Dictionary<string, UIBase> dictUI;      //所有UI的索引表
+        private Dictionary<string, UIBase> dictAllUI;   //所有UI的索引表
         private Dictionary<string, UIBase> dictShowing; //显示界面的索引表
         private Stack<UIBase> stackShowing;             //显示弹窗的索引表
 
@@ -18,22 +26,9 @@ namespace GFramework
         private Transform transFixed = null;            //Fixed节点
         private Transform transPopUp = null;            //PopUp节点
 
-        /// <summary>
-        /// 获取实例
-        /// </summary>
-        /// <returns>实例</returns>
-        public static UIMgr GetInstance()
+        private void Awake()
         {
-            if (instance == null)
-            {
-                instance = new GameObject("UIManager").AddComponent<UIMgr>();
-            }
-            return instance;
-        }
-        
-        void Awake()
-        {
-            dictUI = new Dictionary<string, UIBase>();
+            dictAllUI = new Dictionary<string, UIBase>();
             dictShowing = new Dictionary<string, UIBase>();
             stackShowing = new Stack<UIBase>();
             dictPath = new Dictionary<string, string>();
@@ -52,12 +47,7 @@ namespace GFramework
             //dictUIPath.Add("TestPanel", "Prefab/TestPanel");
         }
 
-        //实例化UIRoot预制体并返回
-        private GameObject InitRootCanvas()
-        {
-            return ResMgr.GetInstance().LoadAsset(UIDefine.UIRootPath, false);
-        }
-
+        #region Public
         public Transform GetUIRoot()
         {
             return transRoot;
@@ -73,14 +63,14 @@ namespace GFramework
 
             UIBase curUI = GetUI(uiName);
             if (curUI == null) { return; }
-            
+
             switch (curUI.showMode)
             {
                 case UIShowMode.Normal:
-                    LoadUiToCurrentCache(uiName);
+                    OpenUIForm(uiName);
                     break;
                 case UIShowMode.Overlying:
-                    PushUiFormToStack(uiName);
+                    PushUIFormToStack(uiName);
                     break;
                 case UIShowMode.HideOther:
                     HideOtherAndShow(uiName);
@@ -91,13 +81,58 @@ namespace GFramework
         }
 
         /// <summary>
+        /// 关闭指定UI窗体
+        /// </summary>
+        /// <param name="uiName"></param>
+        public void CloseUI(string uiName)
+        {
+            #region assertion
+            if (string.IsNullOrEmpty(uiName))
+            {
+                Debug.LogError("uiName cannot be null or empty!");
+                return;
+            }
+            if (!dictAllUI.ContainsKey(uiName))
+            {
+                Debug.LogError("UI doesn't exist! uiName = " + uiName);
+                return;
+            }
+            #endregion
+
+            UIBase curUI = GetUI(uiName);
+            if (curUI == null) { return; }
+            switch (curUI.showMode)
+            {
+                case UIShowMode.Normal:
+                    CloseUIForm(uiName);
+                    break;
+                case UIShowMode.Overlying:
+                    PopUI();
+                    break;
+                case UIShowMode.HideOther:
+                    CloseUIAndShowOther(uiName);
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
+        #region Private
+        //实例化UIRoot预制体并返回
+        private GameObject InitRootCanvas()
+        {
+            return ResMgr.Instance().LoadAsset(UIDefine.UIRootPath, false);
+        }
+
+        /// <summary>
         /// 优先从缓存中获取，获取失败再加载
         /// </summary>
         /// <param name="uiName">UI名称</param>
         /// <returns></returns>
         private UIBase GetUI(string uiName)
         {
-            if (dictUI.TryGetValue(uiName, out UIBase res))
+            if (dictAllUI.TryGetValue(uiName, out UIBase res))
             {
                 return res;
             }
@@ -115,7 +150,7 @@ namespace GFramework
             dictPath.TryGetValue(uiName, out string uiPath);
             if (!string.IsNullOrEmpty(uiPath))
             {
-                uiObject = ResMgr.GetInstance().LoadAsset(uiPath, false);
+                uiObject = ResMgr.Instance().LoadAsset(uiPath, false);
             }
 
             if (transRoot != null && uiObject != null)
@@ -141,25 +176,25 @@ namespace GFramework
                         break;
                 }
                 uiObject.SetActive(false);
-                dictUI.Add(uiName, uiBase);
+                dictAllUI.Add(uiName, uiBase);
                 return uiBase;
             }
             else
             {
-                Debug.Log("Create UI Failed, Please Check! uiName : " + uiName);
+                Debug.LogError("Create UI Failed, Please Check! uiName : " + uiName);
             }
             return null;
         }
 
         /// <summary>
-        /// 把当前窗体加载到“当前窗体”集合中
+        /// 打开界面
         /// </summary>
-        /// <param name="uiFormName">窗体预设的名称</param>
-        private void LoadUiToCurrentCache(string uiFormName)
+        /// <param name="uiFormName">界面名称</param>
+        private void OpenUIForm(string uiFormName)
         {
             dictShowing.TryGetValue(uiFormName, out UIBase showUI);
             if (showUI != null) return;
-            dictUI.TryGetValue(uiFormName, out var uiForm);
+            dictAllUI.TryGetValue(uiFormName, out var uiForm);
             if (uiForm != null)
             {
                 dictShowing.Add(uiFormName, uiForm);
@@ -171,14 +206,14 @@ namespace GFramework
         /// UI窗体入栈
         /// </summary>
         /// <param name="uiFormName">窗体的名称</param>
-        private void PushUiFormToStack(string uiFormName)
+        private void PushUIFormToStack(string uiFormName)
         {
             if (stackShowing.Count > 0)
             {
                 UIBase topUI = stackShowing.Peek();
                 topUI.Freeze();
             }
-            dictUI.TryGetValue(uiFormName, out UIBase curUI);
+            dictAllUI.TryGetValue(uiFormName, out UIBase curUI);
             if (curUI != null)
             {
                 stackShowing.Push(curUI);
@@ -203,7 +238,7 @@ namespace GFramework
             {
                 ui.Hide();
             }
-            dictUI.TryGetValue(uiName, out UIBase curUI);
+            dictAllUI.TryGetValue(uiName, out UIBase curUI);
             if (curUI != null)
             {
                 dictShowing.Add(uiName, curUI);
@@ -212,34 +247,34 @@ namespace GFramework
         }
 
         /// <summary>
-        /// 关闭指定UI窗体
+        /// 关闭界面
         /// </summary>
-        /// <param name="uiName"></param>
-        private void CloseUI(string uiName)
+        /// <param name="uiFormName"></param>
+        private void CloseUIForm(string uiFormName)
         {
-            dictShowing.TryGetValue(uiName, out UIBase showUI);
+            dictShowing.TryGetValue(uiFormName, out UIBase showUI);
             if (showUI == null) return;
 
             showUI.Hide();
-            dictShowing.Remove(uiName);
+            dictShowing.Remove(uiFormName);
         }
 
         /// <summary>
         /// 弹出窗体的出栈逻辑
+        /// <param name="uiName"></param>
         /// </summary>
         private void PopUI()
         {
-            if (stackShowing.Count >= 2)
+            UIBase topUI = stackShowing.Peek();
+            if (topUI != null)
             {
-                UIBase topUI = stackShowing.Pop();
+                stackShowing.Pop();
                 topUI.Hide();
-                UIBase nextUI = stackShowing.Peek();
-                nextUI.Resume();
-            }
-            else if (stackShowing.Count == 1)
-            {
-                UIBase topUI = stackShowing.Pop();
-                topUI.Hide();
+                if (stackShowing.Count >= 1)
+                {
+                    UIBase nextUI = stackShowing.Peek();
+                    nextUI.Resume();
+                }
             }
         }
 
@@ -255,13 +290,13 @@ namespace GFramework
             showUI.Hide();
             dictShowing.Remove(uiName);
 
-            foreach (UIBase baseUi in dictShowing.Values)
+            foreach (UIBase baseUI in dictShowing.Values)
             {
-                baseUi.Show();
+                baseUI.Show();
             }
-            foreach (UIBase popupUi in stackShowing)
+            foreach (UIBase popupUI in stackShowing)
             {
-                popupUi.Show();
+                popupUI.Show();
             }
         }
 
@@ -274,5 +309,6 @@ namespace GFramework
                 dictPath.Add(pathInfo.UIName, pathInfo.UIPath);
             }
         }
+        #endregion
     }
 }

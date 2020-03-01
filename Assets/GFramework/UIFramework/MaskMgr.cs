@@ -7,7 +7,7 @@ namespace GFramework
 {
     public class MaskMgr : MonoBehaviour
     {
-        private static MaskMgr instance = null;   //本脚本私有单例
+        private static MaskMgr _instance = null;   //本脚本私有单例
         private Transform transUIRoot = null;       //UI根节点对象
         private GameObject goMask;                  //遮罩面板
         private Camera uiCamera;                    //UI摄像机
@@ -16,16 +16,16 @@ namespace GFramework
         //得到实例
         public static MaskMgr Instance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new GameObject("MaskManager").AddComponent<MaskMgr>();
+                _instance = new GameObject("MaskManager").AddComponent<MaskMgr>();
             }
-            return instance;
+            return _instance;
         }
 
-        void Awake()
+        private void Awake()
         {
-            transUIRoot = UIMgr.GetInstance().GetUIRoot();
+            transUIRoot = UIMgr.Instance().GetUIRoot();
             gameObject.transform.SetParent(transUIRoot.Find("ScriptHolder"));
             goMask = transUIRoot.Find("Popup/UIMaskPanel").gameObject;
             uiCamera = transUIRoot.Find("UICamera").GetComponent<Camera>();

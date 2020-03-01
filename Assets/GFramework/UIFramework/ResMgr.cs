@@ -6,23 +6,19 @@ namespace GFramework
 {
     public class ResMgr : MonoBehaviour
     {
-        private static ResMgr instance;       //本脚本私有单例实例
-        private Hashtable hashTable = null;         //容器键值对集合
-
-        /// <summary>
-        /// 得到单例
-        /// </summary>
-        /// <returns></returns>
-        public static ResMgr GetInstance()
+        private static ResMgr _instance;
+        public static ResMgr Instance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new GameObject("ResourceMgr").AddComponent<ResMgr>();
+                _instance = new GameObject("ResMgr").AddComponent<ResMgr>();
             }
-            return instance;
+            return _instance;
         }
 
-        void Awake()
+        private Hashtable hashTable = null;         //容器键值对集合
+
+        private void Awake()
         {
             hashTable = new Hashtable();
         }

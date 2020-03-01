@@ -4,6 +4,7 @@ namespace GFramework
 {
     public class UIBase : MonoBehaviour
     {
+        public string uiName;
         public bool isClearPopup = false;                           //是否清除弹窗
         public UIType uiType = UIType.Normal;                       //UI类型
         public UIShowMode showMode = UIShowMode.Normal;             //UI显示类型
