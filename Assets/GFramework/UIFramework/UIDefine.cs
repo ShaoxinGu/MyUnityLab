@@ -5,7 +5,7 @@ namespace GFramework
 {
     public class UIDefine
     {
-        public static string UIRootPath = "UIRoot";
+        public static string UIRootPath = "UI/UIRoot";
     }
 
     [Serializable]
@@ -24,28 +24,25 @@ namespace GFramework
     //UI类型
     public enum UIType
     {
-        //普通
-        Normal,
-        //固定                              
-        Fixed,
-        //弹出
-        PopUp
+        Normal, //普通                
+        Fixed,  //固定
+        PopUp   //弹出
     }
 
     //UI的显示类型
     public enum UIShowMode
     {
         Normal,     //普通
-        Overlying,  //层叠弹出
+        Overlying,  //层叠
         HideOther   //独占
     }
 
     //UI的透明度类型
-    public enum UILucencyType
+    public enum UiTransparencyType
     {
-        Lucency,//完全透明，不能穿透
-        Translucence,//半透明，不能穿透
-        ImPenetrable,//低透明度，不能穿透
-        Pentrate//可以穿透
+        Transparent,    //完全透明，不能穿透
+        Translucence,   //半透明，不能穿透
+        ImPenetrable,   //低透明度，不能穿透
+        Penetrable,     //可以穿透
     }
 }

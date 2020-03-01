@@ -4,20 +4,20 @@ using System.Collections;
 
 namespace GFramework
 {
-    public class ResourcesMgr : MonoBehaviour
+    public class ResMgr : MonoBehaviour
     {
-        private static ResourcesMgr instance;       //本脚本私有单例实例
+        private static ResMgr instance;       //本脚本私有单例实例
         private Hashtable hashTable = null;         //容器键值对集合
 
         /// <summary>
         /// 得到单例
         /// </summary>
         /// <returns></returns>
-        public static ResourcesMgr GetInstance()
+        public static ResMgr GetInstance()
         {
             if (instance == null)
             {
-                instance = new GameObject("ResourceMgr").AddComponent<ResourcesMgr>();
+                instance = new GameObject("ResourceMgr").AddComponent<ResMgr>();
             }
             return instance;
         }

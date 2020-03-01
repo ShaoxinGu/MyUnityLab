@@ -3,7 +3,7 @@
 	[
 		{
 			"UIName" : "TestPanel",
-			"UIPath" : "Prefab/TestPanel"
+			"UIPath" : "UI/Prefab/TestPanel"
 		}
 	]
 }
