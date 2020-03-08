@@ -1,0 +1,153 @@
+XLog = XLog or {}
+
+local MAX_DEPTH = 5     --recursion depth
+
+local indentCache = { "" }
+local function GetIndent (depth)
+	if not indentCache[depth] then
+		indentCache[depth] = GetIndent(depth - 1) .. "  "
+	end
+	return indentCache[depth]
+end
+
+local function Dump (target)
+	local content = {}
+	local stack = {
+		{
+			obj = target,
+			name = nil,
+			depth = 1,
+			symbol = nil,
+		}
+	}
+
+	while #stack > 0 do
+		local top = table.remove(stack)
+		local obj = top.obj
+		local name = top.name
+		local depth = top.depth
+		local symbol = top.symbol
+
+		if type(obj) == "table" then
+			if depth > MAX_DEPTH then
+				table.insert(stack, {
+					obj = "too depth ...",
+					name = name,
+					depth = depth,
+					symbol = symbol,
+				})
+			else
+				table.insert(stack, {
+					obj = "}",
+					name = nil,
+					depth = depth,
+					symbol = symbol,
+				})
+
+				local temp = {}
+				for k, v in pairs(obj) do
+					table.insert(temp, {
+						obj = v,
+						name = k,
+						depth = depth + 1,
+						symbol = ",",
+					})
+				end
+
+				local count = #temp
+				for i = 1, count do
+					table.insert(stack, temp[count - i + 1])
+				end
+
+				table.insert(stack, {
+					obj = "{",
+					name = name,
+					depth = depth,
+					symbol = nil,
+				})
+			end
+		else
+			table.insert(content, GetIndent(depth))
+
+			if name then
+				if type(name) == "string" then
+					table.insert(content, "\"")
+					table.insert(content, name)
+					table.insert(content, "\"")
+				else
+					table.insert(content, tostring(name))
+				end
+
+				table.insert(content, " = ")
+			end
+
+			if obj and type(obj) == "string" then
+				if obj ~= "{" and obj ~= "}" then
+					table.insert(content, "\"")
+					table.insert(content, obj)
+					table.insert(content, "\"")
+				else
+					table.insert(content, obj)
+				end
+			else
+				table.insert(content, tostring(obj))
+			end
+
+			if symbol then
+				table.insert(content, symbol)
+			end
+
+			table.insert(content, "\n")
+		end
+	end
+
+	return table.concat(content)
+end
+
+local Print = function(...)
+	local args = { ... }
+	local count = #args
+	
+	if count <= 0 then
+		return
+	end
+
+	local content = {}
+	for i = 1, count do
+		if type(args[i]) == "table" then
+			table.insert(content, Dump(args[i]))
+		else
+			table.insert(content, tostring(args[i]))
+			table.insert(content, "\n")
+		end
+	end
+
+	return table.concat(content)
+end
+
+XLog.Debug = function(...)
+	local content = Print(...)
+	if content then
+		CS.XLog.Debug(content .. "\n" .. debug.traceback())
+	else
+		CS.XLog.Debug("nil\n" .. debug.traceback())
+	end
+end
+
+XLog.Warning = function(...)
+	local content = Print(...)
+	if content then
+		CS.XLog.Warning(content .. "\n" .. debug.traceback())
+	else
+		CS.XLog.Warning("nil\n" .. debug.traceback())
+	end
+end
+
+XLog.Error = function(...)
+	local content = Print(...)
+	if content then
+		CS.XLog.Error(content .. "\n" .. debug.traceback())
+	else
+		CS.XLog.Error("nil\n" .. debug.traceback())
+	end
+end
