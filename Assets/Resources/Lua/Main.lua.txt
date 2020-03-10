@@ -1,0 +1,2 @@
+local XLog = (require "Lua/XLog")
+XLog.Debug("Do Something In Lua...")

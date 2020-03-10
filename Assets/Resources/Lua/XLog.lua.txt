@@ -128,26 +128,34 @@ end
 XLog.Debug = function(...)
 	local content = Print(...)
 	if content then
-		CS.XLog.Debug(content .. "\n" .. debug.traceback())
+		--CS.XLog.Debug(content .. "\n" .. debug.traceback())
+		CS.UnityEngine.Debug.Log(content .. "\n" .. debug.traceback())
 	else
-		CS.XLog.Debug("nil\n" .. debug.traceback())
+		--CS.XLog.Debug("nil\n" .. debug.traceback())
+		CS.UnityEngine.Debug.Log("nil\n" .. debug.traceback())
 	end
 end
 
 XLog.Warning = function(...)
 	local content = Print(...)
 	if content then
-		CS.XLog.Warning(content .. "\n" .. debug.traceback())
+		--CS.XLog.Warning(content .. "\n" .. debug.traceback())
+		CS.UnityEngine.Debug.LogWarning(content .. "\n" .. debug.traceback())
 	else
-		CS.XLog.Warning("nil\n" .. debug.traceback())
+		--CS.XLog.Warning("nil\n" .. debug.traceback())
+		CS.UnityEngine.Debug.LogWarning("nil\n" .. debug.traceback())
 	end
 end
 
 XLog.Error = function(...)
 	local content = Print(...)
 	if content then
-		CS.XLog.Error(content .. "\n" .. debug.traceback())
+		--CS.XLog.Error(content .. "\n" .. debug.traceback())
+		CS.UnityEngine.Debug.LogError(content .. "\n" .. debug.traceback())
 	else
-		CS.XLog.Error("nil\n" .. debug.traceback())
+		--CS.XLog.Error("nil\n" .. debug.traceback())
+		CS.UnityEngine.Debug.LogError("nil\n" .. debug.traceback())
 	end
 end
+
+return XLog
