@@ -18,7 +18,7 @@ namespace GFramework
             gameObject.SetActive(true);
             if (uiType == UIType.PopUp)
             {
-                MaskMgr.Instance().SetMaskWindow(gameObject, transparencyType);
+                //TODO 设置遮罩
             }
         }
 
@@ -30,7 +30,7 @@ namespace GFramework
             gameObject.SetActive(false);
             if (uiType == UIType.PopUp)
             {
-                MaskMgr.Instance().CancelMaskWindow();
+                //清除遮罩
             }
         }
 
@@ -50,7 +50,7 @@ namespace GFramework
             gameObject.SetActive(true);
             if (uiType == UIType.PopUp)
             {
-                MaskMgr.Instance().SetMaskWindow(gameObject, transparencyType);
+                //TODO 设置遮罩
             }
         }
     }

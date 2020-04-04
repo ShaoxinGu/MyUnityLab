@@ -7,13 +7,16 @@ namespace GFramework
     public class ResMgr : MonoBehaviour
     {
         private static ResMgr _instance;
-        public static ResMgr Instance()
+        public static ResMgr Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = new GameObject("ResMgr").AddComponent<ResMgr>();
+                if (_instance == null)
+                {
+                    _instance = new GameObject("ResMgr").AddComponent<ResMgr>();
+                }
+                return _instance;
             }
-            return _instance;
         }
 
         private Hashtable hashTable = null;         //容器键值对集合

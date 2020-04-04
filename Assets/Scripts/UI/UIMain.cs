@@ -24,6 +24,6 @@ public class UIMain : UIBase
 
     private void OnClickMail()
     {
-        UIMgr.Instance().OpenUI("UIMail");
+        UIManager.Instance.OpenUI("UIMail");
     }
 }

@@ -3,22 +3,25 @@ using UnityEngine;
 
 namespace GFramework
 {
-    public class UIMgr : MonoBehaviour
+    public class UIManager : MonoBehaviour
     {
-        private static UIMgr _instance = null;
-        public static UIMgr Instance()
+        private static UIManager _instance;
+        public static UIManager Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = new GameObject("UIManager").AddComponent<UIMgr>();
+                if (_instance == null)
+                {
+                    _instance = new GameObject("UIManager").AddComponent<UIManager>();
+                }
+                return _instance;
             }
-            return _instance;
         }
 
         private Dictionary<string, string> dictPath;    //UI路径
         private Dictionary<string, UIBase> dictAllUI;   //所有UI的索引表
         private Dictionary<string, UIBase> dictShowing; //显示界面的索引表
-        private Stack<UIBase> stackShowing;             //显示弹窗的索引表
+        private Stack<UIBase> stackShowing;             //显示弹窗的堆栈
 
         private Transform transScript = null;           //脚本挂载节点
         private Transform transRoot = null;             //UI根节点
@@ -44,7 +47,6 @@ namespace GFramework
             transform.SetParent(transScript);
 
             GetUIPathInfoFromJson();
-            //dictUIPath.Add("TestPanel", "Prefab/TestPanel");
         }
 
         #region Public
@@ -122,7 +124,7 @@ namespace GFramework
         //实例化UIRoot预制体并返回
         private GameObject InitRootCanvas()
         {
-            return ResMgr.Instance().LoadAsset(UIDefine.UIRootPath, false);
+            return ResMgr.Instance.LoadAsset(UIDefine.UIRootPath, false);
         }
 
         /// <summary>
@@ -150,7 +152,7 @@ namespace GFramework
             dictPath.TryGetValue(uiName, out string uiPath);
             if (!string.IsNullOrEmpty(uiPath))
             {
-                uiObject = ResMgr.Instance().LoadAsset(uiPath, false);
+                uiObject = ResMgr.Instance.LoadAsset(uiPath, false);
             }
 
             if (transRoot != null && uiObject != null)

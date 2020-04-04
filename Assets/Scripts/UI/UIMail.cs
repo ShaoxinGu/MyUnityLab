@@ -45,6 +45,6 @@ public class UIMail : UIBase
 
     void Close()
     {
-        UIMgr.Instance().CloseUI("UIMail");
+        UIManager.Instance.CloseUI("UIMail");
     }
 }

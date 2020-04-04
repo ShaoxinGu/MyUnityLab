@@ -2,7 +2,7 @@
 
 namespace GFramework
 {
-    public class StartGame : MonoBehaviour
+    public class GameLoader : MonoBehaviour
     {
         private void Awake()
         {
@@ -11,7 +11,7 @@ namespace GFramework
 
         void Start()
         {
-            UIMgr.Instance().OpenUI("UIMain");
+            UIManager.Instance.OpenUI("UIMain");
         }
     }
 }
