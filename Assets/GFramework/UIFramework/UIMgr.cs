@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace GFramework
 {
-    public class UIManager : MonoBehaviour
+    public class UIMgr : MonoBehaviour
     {
-        private static UIManager _instance;
-        public static UIManager Instance
+        private static UIMgr _instance;
+        public static UIMgr Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new GameObject("UIManager").AddComponent<UIManager>();
+                    _instance = new GameObject("UIManager").AddComponent<UIMgr>();
                 }
                 return _instance;
             }
@@ -200,7 +200,7 @@ namespace GFramework
             if (uiForm != null)
             {
                 dictShowing.Add(uiFormName, uiForm);
-                uiForm.Show();
+                uiForm.OnEnter();
             }
         }
 
@@ -213,13 +213,13 @@ namespace GFramework
             if (stackShowing.Count > 0)
             {
                 UIBase topUI = stackShowing.Peek();
-                topUI.Freeze();
+                topUI.OnPause();
             }
             dictAllUI.TryGetValue(uiFormName, out UIBase curUI);
             if (curUI != null)
             {
                 stackShowing.Push(curUI);
-                curUI.Show();
+                curUI.OnEnter();
             }
         }
 
@@ -234,17 +234,17 @@ namespace GFramework
 
             foreach (var ui in dictShowing.Values)
             {
-                ui.Hide();
+                ui.OnExit();
             }
             foreach (var ui in stackShowing)
             {
-                ui.Hide();
+                ui.OnExit();
             }
             dictAllUI.TryGetValue(uiName, out UIBase curUI);
             if (curUI != null)
             {
                 dictShowing.Add(uiName, curUI);
-                curUI.Show();
+                curUI.OnEnter();
             }
         }
 
@@ -257,7 +257,7 @@ namespace GFramework
             dictShowing.TryGetValue(uiFormName, out UIBase showUI);
             if (showUI == null) return;
 
-            showUI.Hide();
+            showUI.OnExit();
             dictShowing.Remove(uiFormName);
         }
 
@@ -271,11 +271,11 @@ namespace GFramework
             if (topUI != null)
             {
                 stackShowing.Pop();
-                topUI.Hide();
+                topUI.OnExit();
                 if (stackShowing.Count >= 1)
                 {
                     UIBase nextUI = stackShowing.Peek();
-                    nextUI.Resume();
+                    nextUI.OnResume();
                 }
             }
         }
@@ -289,16 +289,16 @@ namespace GFramework
             dictShowing.TryGetValue(uiName, out var showUI);
             if (showUI == null) return;
 
-            showUI.Hide();
+            showUI.OnExit();
             dictShowing.Remove(uiName);
 
             foreach (UIBase baseUI in dictShowing.Values)
             {
-                baseUI.Show();
+                baseUI.OnEnter();
             }
             foreach (UIBase popupUI in stackShowing)
             {
-                popupUI.Show();
+                popupUI.OnEnter();
             }
         }
 

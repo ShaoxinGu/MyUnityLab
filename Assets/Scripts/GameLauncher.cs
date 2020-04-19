@@ -2,16 +2,16 @@
 
 namespace GFramework
 {
-    public class GameLoader : MonoBehaviour
+    public class GameLauncher : MonoBehaviour
     {
-        private void Awake()
+        void Awake()
         {
             RedDotManager.Instance.Initilize();
         }
 
         void Start()
         {
-            UIManager.Instance.OpenUI("UIMain");
+            UIMgr.Instance.OpenUI("UIMain");
         }
     }
 }

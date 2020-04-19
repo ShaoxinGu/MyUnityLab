@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 namespace GFramework
 {
@@ -13,7 +14,7 @@ namespace GFramework
         /// <summary>
         /// 显示
         /// </summary>
-        public virtual void Show()
+        public virtual void OnEnter()
         {
             gameObject.SetActive(true);
             if (uiType == UIType.PopUp)
@@ -25,7 +26,7 @@ namespace GFramework
         /// <summary>
         /// 隐藏
         /// </summary>
-        public virtual void Hide()
+        public virtual void OnExit()
         {
             gameObject.SetActive(false);
             if (uiType == UIType.PopUp)
@@ -37,7 +38,7 @@ namespace GFramework
         /// <summary>
         /// 被盖住的弹窗冻结
         /// </summary>
-        public virtual void Freeze()
+        public virtual void OnPause()
         {
             gameObject.SetActive(true);
         }
@@ -45,7 +46,7 @@ namespace GFramework
         /// <summary>
         /// 被盖住的弹窗恢复
         /// </summary>
-        public virtual void Resume()
+        public virtual void OnResume()
         {
             gameObject.SetActive(true);
             if (uiType == UIType.PopUp)

@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace GFramework
+﻿namespace GFramework
 {
-    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class Singleton<T> where T : new()
     {
-        /// <summary>
-        /// 单例
-        /// </summary>
-        public static T Instance { get; private set; }
-
-        /// <summary>
-        /// 赋值
-        /// </summary>
-        public virtual void Awake()
+        private static T instance;
+        public static T Instance
         {
-            //单例必须唯一，重复就抛错
-            if (Instance != null)
-                throw new Exception("Repeated Singleton");
-
-            Instance = this as T;
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new T();
+                }
+                return instance;
+            }
         }
     }
 }

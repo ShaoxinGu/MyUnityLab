@@ -10,6 +10,18 @@ namespace GFramework
 {
     public class UIGenerator : EditorWindow
     {
+        private static UIGenerator _instance = null;
+        public static UIGenerator Instance
+        {
+            get
+            {
+                if(_instance == null)
+                {
+                    _instance = new UIGenerator();
+                }
+                return _instance;
+            }
+        }
         private const string SCRIPT_TEMPLATE_PATH = "Assets/GFramework/Editor/UIGenerator/ScriptTemplate.cs.txt";
         private const string GENERATE_ROOT_PATH = "Assets/UI";
         private const string PREFAB_SAVE_PATH = GENERATE_ROOT_PATH + "/Prefab";
@@ -18,7 +30,6 @@ namespace GFramework
         private const string LUA_SAVE_PATH = GENERATE_ROOT_PATH + "/Lua";
 
         private static string _saveName = null;
-        private static UIGenerator _instance = null;
         private static GameObject _rootObject = null;
         private static NodeInfo _rootInfo = null;
         private static Dictionary<string, int> _nameDict = new Dictionary<string, int>();
