@@ -124,7 +124,7 @@ namespace GFramework
         //实例化UIRoot预制体并返回
         private GameObject InitRootCanvas()
         {
-            return ResMgr.Instance.LoadAsset(UIDefine.UIRootPath, false);
+            return ResMgr.Instance.Load<GameObject>(UIDefine.UIRootPath);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace GFramework
             dictPath.TryGetValue(uiName, out string uiPath);
             if (!string.IsNullOrEmpty(uiPath))
             {
-                uiObject = ResMgr.Instance.LoadAsset(uiPath, false);
+                uiObject = ResMgr.Instance.Load<GameObject>(uiPath);
             }
 
             if (transRoot != null && uiObject != null)

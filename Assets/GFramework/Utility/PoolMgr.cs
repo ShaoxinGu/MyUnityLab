@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GFramework
 {
@@ -39,19 +40,20 @@ namespace GFramework
         private Dictionary<string, PoolData> poolDic = new Dictionary<string, PoolData>();
         private GameObject PoolObj = null;
 
-        public GameObject GetObj(string name)
+        public void GetObj(string name, UnityAction<GameObject> callBack)
         {
-            GameObject obj = null;
             if (poolDic.ContainsKey(name) && poolDic[name].poolList.Count > 0)
             {
-                obj = poolDic[name].GetObj();
+                callBack(poolDic[name].GetObj());
             }
             else
             {
-                obj = Object.Instantiate(Resources.Load<GameObject>(name));
-                obj.name = name;
+                ResMgr.Instance.LoadAsyn<GameObject>(name, (obj)=>
+                {
+                    obj.name = name;
+                    callBack(obj);
+                });
             }
-            return obj;
         }
 
         public void PushObj(string name, GameObject obj)
