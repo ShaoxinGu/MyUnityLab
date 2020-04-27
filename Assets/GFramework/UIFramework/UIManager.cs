@@ -16,7 +16,6 @@ namespace GFramework
     public class UIManager : Singleton<UIManager>
     {
         private Dictionary<string, BasePanel> panelDic = new Dictionary<string, BasePanel>();
-        private Transform canvas;
         private Transform bottom;
         private Transform midlle;
         private Transform top;
@@ -25,17 +24,18 @@ namespace GFramework
 
         public UIManager()
         {
-            GameObject obj1 = ResMgr.Instance.Load<GameObject>("UI/Canvas");
+            GameObject obj1 = ResMgr.Instance.Load<GameObject>("UI/Common/Canvas");
             Object.DontDestroyOnLoad(obj1);
-            GameObject obj2 = ResMgr.Instance.Load<GameObject>("UI/EventSystem");
+            GameObject obj2 = ResMgr.Instance.Load<GameObject>("UI/Common/EventSystem");
             Object.DontDestroyOnLoad(obj2);
+            Transform canvas = obj1.transform;
             bottom = canvas.Find("Bottom");
             midlle = canvas.Find("Middle");
             top = canvas.Find("Top");
             system = canvas.Find("System");
         }
 
-        public void ShowPanel<T>(string name, UI_LAYER layer, UnityAction<T> callBack = null) where T : BasePanel
+        public void ShowPanel<T>(string name, UI_LAYER layer = UI_LAYER.Bottom, UnityAction<T> callBack = null) where T : BasePanel
         {
             if (panelDic.ContainsKey(name))
             {

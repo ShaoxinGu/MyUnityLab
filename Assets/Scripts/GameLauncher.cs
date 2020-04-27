@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
+using GFramework;
 
-namespace GFramework
+public class GameLauncher : MonoBehaviour
 {
-    public class GameLauncher : MonoBehaviour
+    void Awake()
     {
-        void Awake()
-        {
-            RedDotManager.Instance.Initilize();
-        }
+        //RedDotManager.Instance.Initilize();
+    }
 
-        void Start()
-        {
-            UIMgr.Instance.OpenUI("UIMain");
-        }
+    void Start()
+    {
+        //UIMgr.Instance.OpenUI("UIMain");
+        BagMgr.Instance.InitItemInfo();
+        UIManager.Instance.ShowPanel<BagPanel>("Bag/BagPanel");
+
     }
 }

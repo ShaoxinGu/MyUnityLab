@@ -10,7 +10,7 @@ namespace GFramework
     {
         private Dictionary<string, List<UIBehaviour>> widgetDic = new Dictionary<string, List<UIBehaviour>>();
 
-        void Start()
+        void Awake()
         {
             FindChidrenWidget<Button>();
             FindChidrenWidget<Image>();

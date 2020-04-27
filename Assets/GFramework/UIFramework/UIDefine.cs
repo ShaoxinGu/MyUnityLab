@@ -5,7 +5,7 @@ namespace GFramework
 {
     public class UIDefine
     {
-        public static string UIRootPath = "UI/UIRoot";
+        public static string UIRootPath = "UI/Common/UIRoot";
     }
 
     [Serializable]

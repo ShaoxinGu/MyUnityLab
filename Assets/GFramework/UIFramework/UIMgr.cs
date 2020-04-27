@@ -304,7 +304,7 @@ namespace GFramework
 
         private void GetUIPathInfoFromJson()
         {
-            TextAsset textAsset = Resources.Load<TextAsset>("UI/Json/UIPanelPath");
+            TextAsset textAsset = Resources.Load<TextAsset>("Json/UIPanelPath");
             UIPathInfos uiPathInfo = JsonUtility.FromJson<UIPathInfos>(textAsset.text);
             foreach (var pathInfo in uiPathInfo.UIPathList)
             {

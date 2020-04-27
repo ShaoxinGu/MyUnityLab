@@ -3,12 +3,12 @@
 	[
 		{
 			"UIName": "UIMain",
-			"UIPath": "UI/Prefab/UIMain"
+			"UIPath": "UI/Main/UIMain"
 		},
 
 		{
 			"UIName": "UIMail",
-			"UIPath": "UI/Prefab/UIMail"
+			"UIPath": "UI/Mail/UIMail"
 		}
 	]
 }
