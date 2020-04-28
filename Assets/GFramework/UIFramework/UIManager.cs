@@ -70,8 +70,8 @@ namespace GFramework
                 (obj.transform as RectTransform).offsetMin = Vector3.zero;
 
                 T panel = obj.GetComponent<T>();
-                callBack?.Invoke(panel);
                 panel.Show();
+                callBack?.Invoke(panel);
                 panelDic.Add(name, panel);
             });
         }

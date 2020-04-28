@@ -13,7 +13,7 @@ namespace GFramework
         public PoolData(GameObject obj, GameObject poolObj)
         {
             parentObj = new GameObject(obj.name);
-            parentObj.transform.parent = poolObj.transform;
+            parentObj.transform.SetParent(poolObj.transform);
             poolList = new List<GameObject>();
             PushObj(obj);
         }
@@ -22,7 +22,7 @@ namespace GFramework
         {
             obj.SetActive(false);
             poolList.Add(obj);
-            obj.transform.parent = parentObj.transform;
+            obj.transform.SetParent(parentObj.transform);
         }
 
         public GameObject GetObj()
@@ -30,7 +30,7 @@ namespace GFramework
             GameObject obj = poolList[0];
             poolList.RemoveAt(0);
             obj.SetActive(true);
-            obj.transform.parent = null;
+            obj.transform.SetParent(null);
             return obj;
         }
     }
@@ -60,7 +60,7 @@ namespace GFramework
         {
             if (PoolObj == null)
                 PoolObj = new GameObject("Pool");
-            obj.transform.parent = PoolObj.transform;
+            obj.transform.SetParent(PoolObj.transform);
             obj.SetActive(false);
             if (poolDic.ContainsKey(name))
             {
