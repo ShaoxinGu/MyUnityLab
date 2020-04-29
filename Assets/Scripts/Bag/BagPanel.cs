@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GFramework;
 
-public class BagPanel : BasePanel
+public class BagPanel : UIBase
 {
     public RectTransform content;
     public int viewportHight;
@@ -59,9 +59,9 @@ public class BagPanel : BasePanel
         }
     }
 
-    public override void Show()
+    public override void OnEnter()
     {
-        base.Show();
+        base.OnEnter();
         content.sizeDelta = new Vector2(0, Mathf.CeilToInt(BagMgr.Instance.items.Count / 3f) * 200);
         CheckShowAndHide();
     }

@@ -10,9 +10,8 @@ public class GameLauncher : MonoBehaviour
 
     void Start()
     {
-        //UIMgr.Instance.OpenUI("UIMain");
         BagMgr.Instance.InitItemInfo();
-        UIManager.Instance.ShowPanel<BagPanel>("Bag/BagPanel");
-
+        UIMgr.Instance.OpenUI("UIMain");
+        //UIMgr.Instance.OpenUI("UIBag");
     }
 }

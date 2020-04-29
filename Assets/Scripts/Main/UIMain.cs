@@ -6,24 +6,19 @@ using UnityEngine.UI;
 
 public class UIMain : UIBase
 {
-
-    public Button ButtonMail;
-
-    // Start is called before the first frame update
     void Start()
     {
-        ButtonMail.onClick.AddListener(OnClickMail);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GetWidget<Button>("ButtonMail").onClick.AddListener(OnClickMail);
+        GetWidget<Button>("ButtonBag").onClick.AddListener(OnClickBag);
     }
 
     private void OnClickMail()
     {
         UIMgr.Instance.OpenUI("UIMail");
+    }
+
+    private void OnClickBag()
+    {
+        UIMgr.Instance.OpenUI("UIBag");
     }
 }

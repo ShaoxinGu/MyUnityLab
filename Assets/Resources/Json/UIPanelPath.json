@@ -1,6 +1,5 @@
 {
-	"UIPathList":
-	[
+	"UIPathList": [
 		{
 			"UIName": "UIMain",
 			"UIPath": "UI/Main/UIMain"
@@ -9,6 +8,11 @@
 		{
 			"UIName": "UIMail",
 			"UIPath": "UI/Mail/UIMail"
+		},
+
+		{
+			"UIName": "UIBag",
+			"UIPath": "UI/Bag/UIBag"
 		}
 	]
 }
