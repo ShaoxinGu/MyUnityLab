@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4910108970727388579}
   m_Layer: 5
   m_Name: ButtonBag
-  m_TagString: Untagged
+  m_TagString: UIProperty
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 4084437721465023411}
   m_Layer: 5
   m_Name: UIMain
-  m_TagString: Untagged
+  m_TagString: UIView
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -362,7 +362,6 @@ MonoBehaviour:
   uiType: 0
   showMode: 0
   transparencyType: 0
-  ButtonMail: {fileID: 2205612556811469370}
 --- !u!1 &4337126631331800064
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +376,7 @@ GameObject:
   - component: {fileID: 2205612556811469370}
   m_Layer: 5
   m_Name: ButtonMail
-  m_TagString: Untagged
+  m_TagString: UIProperty
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -1,0 +1,11 @@
+using UnityEngine;
+using GFramework;
+
+public class #NAME# : UIBase
+{
+#PROPERTY#
+	void Awake()
+	{
+#GET#
+	}
+}
