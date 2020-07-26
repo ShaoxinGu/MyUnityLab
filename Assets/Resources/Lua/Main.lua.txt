@@ -1,2 +1,43 @@
+---@class Base 测试基类
+Base = {}
+function Base:new (o)
+    o = o or {}   -- create object if user does not provide one
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+--基类的打印
+function Base:print()
+	print("This Is Base print()")
+end
+
+---@class Child:Base 测试子类
+Child = Base:new()
+
+--- 子类重写的打印
+function Child:print()
+	print("This Is Child print()")
+end
+
+--- 子类测试的打印
+function Child:test()
+	print("This Is Child test()")
+end
+
+local TestChild = Child:new()
+TestChild:print()
+TestChild:test()
+
+---@class GrandChild:Child 测试孙类
+local GrandChild = Child:new()
+--- 孙类方法
+function GrandChild:DoSomething()
+	print("I am grandchild!")
+end
+
+GrandChild:print()
+GrandChild:DoSomething()
+
 _G.XLog = require "Lua/XLog"
 XLog.Debug("Do Something In Lua...")
