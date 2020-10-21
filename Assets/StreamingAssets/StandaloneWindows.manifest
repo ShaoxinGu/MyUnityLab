@@ -1,0 +1,11 @@
+ManifestFileVersion: 0
+CRC: 287525348
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: mat
+      Dependencies: {}
+    Info_1:
+      Name: model
+      Dependencies:
+        Dependency_0: mat

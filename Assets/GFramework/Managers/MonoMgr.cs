@@ -15,7 +15,6 @@ namespace GFramework
             DontDestroyOnLoad(this.gameObject);
         }
 
-        // Update is called once per frame
         void Update()
         {
             updateEvent?.Invoke();
