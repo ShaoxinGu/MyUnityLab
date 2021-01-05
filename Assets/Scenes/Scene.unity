@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 329541860}
   - component: {fileID: 329541861}
-  - component: {fileID: 329541862}
   m_Layer: 0
   m_Name: GameLauncher
   m_TagString: Untagged
@@ -165,17 +164,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be5b9dd5279160459fbc7467e6b3037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &329541862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 329541859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9173d38911503c4a9a371b0760bdd15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  luaScript: {fileID: 4900000, guid: 823414c4d6d186040b3605f481525e75, type: 3}
-  injections: []
+  luaEntry: {fileID: 4900000, guid: 823414c4d6d186040b3605f481525e75, type: 3}

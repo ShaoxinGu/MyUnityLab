@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using GFramework;
 using System.Collections;
+using XLua;
 
 public class GameLauncher : MonoBehaviour
 {
+    private LuaEnv env;
     void Awake()
     {
         RedDotManager.Instance.Initilize();
@@ -11,7 +13,6 @@ public class GameLauncher : MonoBehaviour
 
     void Start()
     {
-        //this.gameObject.GetComponents<UnityEngine.UI.Text>("txtTest");
         BagMgr.Instance.InitItemInfo();
         UIMgr.Instance.OpenUI("UIMain");
 
@@ -20,6 +21,9 @@ public class GameLauncher : MonoBehaviour
         {
             Instantiate(obj);
         });
+        
+        env = new LuaEnv();
+        env.DoString("require 'Lua/Main'");
     }
 
     IEnumerator LoadABAsync(string ABName, string assetName)
