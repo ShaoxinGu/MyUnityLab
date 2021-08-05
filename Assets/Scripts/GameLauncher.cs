@@ -14,12 +14,6 @@ public class GameLauncher : MonoBehaviour
     {
         BagMgr.Instance.InitItemInfo();
         UIMgr.Instance.OpenUI("UIEntry");
-
-        //test ABMgr
-        ABMgr.Instance.LoadResAsync<GameObject>("model", "cube", (obj) =>
-        {
-            Instantiate(obj);
-        });
         
         env = new LuaEnv();
         env.DoString("require 'Lua/Main'");

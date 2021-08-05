@@ -1,0 +1,7 @@
+local EventMgr = {}
+
+function EventMgr:RegisterEvent(ModuleId, EventId, Callback)
+
+end
+
+return EventMgr

@@ -1,0 +1,22 @@
+local UIMgr = {}
+
+function UIMgr:Initialize()
+    self:RegisterEvent()
+end
+
+function UIMgr:RegisterEvent()
+    -- 创建界面
+    EventMgr.RegisterEvent(ModuleId.Common, NotifyId.Common.CREATE_PANEL, self.Open)
+    -- 销毁界面
+    EventMgr.RegisterEvent(ModuleId.Common, NotifyId.Common.DESTROY_PANEL, self.Close)
+end
+
+function UIMgr:Open()
+
+end
+
+function UIMgr:Close()
+    
+end
+
+return UIMgr

@@ -1,0 +1,8 @@
+local NotifyId = {
+    Common = {
+        CREATE_PANEL = 1,
+        DESTROY_PANEL = 2,
+    },
+}
+
+return NotifyId

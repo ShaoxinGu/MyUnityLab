@@ -1,0 +1,6 @@
+local ModuleId = {
+    --通用
+    Common = "Common",
+}
+
+return ModuleId
