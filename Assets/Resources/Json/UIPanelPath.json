@@ -1,6 +1,11 @@
 {
 	"UIPathList": [
 		{
+			"UIName": "UIEntry",
+			"UIPath": "UI/Entry/UIEntry"
+		},
+
+		{
 			"UIName": "UIMain",
 			"UIPath": "UI/Main/UIMain"
 		},

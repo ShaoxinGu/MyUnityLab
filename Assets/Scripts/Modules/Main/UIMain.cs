@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GFramework;
+﻿using GFramework;
 using UnityEngine.UI;
 
 public class UIMain : UIBase

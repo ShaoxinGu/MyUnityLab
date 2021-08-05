@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using GFramework;
-using System.Collections;
 using XLua;
 
 public class GameLauncher : MonoBehaviour
@@ -14,7 +13,7 @@ public class GameLauncher : MonoBehaviour
     void Start()
     {
         BagMgr.Instance.InitItemInfo();
-        UIMgr.Instance.OpenUI("UIMain");
+        UIMgr.Instance.OpenUI("UIEntry");
 
         //test ABMgr
         ABMgr.Instance.LoadResAsync<GameObject>("model", "cube", (obj) =>
@@ -24,15 +23,5 @@ public class GameLauncher : MonoBehaviour
         
         env = new LuaEnv();
         env.DoString("require 'Lua/Main'");
-    }
-
-    IEnumerator LoadABAsync(string ABName, string assetName)
-    {
-        AssetBundleCreateRequest abcr = AssetBundle.LoadFromFileAsync(Application.streamingAssetsPath + "/" + ABName);
-        yield return abcr;
-        AssetBundleRequest abr = abcr.assetBundle.LoadAssetAsync<GameObject>(assetName);
-        yield return abr;
-        GameObject go = abr.asset as GameObject;
-        Instantiate(go);
     }
 }
