@@ -1,0 +1,16 @@
+local UIBase = Class("UIBase")
+
+function UIBase:Initialize()
+	self.ResPath = nil
+	self.Panel = nil
+end
+
+function UIBase:Create()
+	self:OnCreate()
+end
+
+---重写
+function UIBase:OnCreate(ResPath)
+	self.ResPath = ResPath
+	self.Panel = CommonUtil.InstantiatePrefab(self.ResPath, CommonUtil.GetUIRootTransform())
+end
