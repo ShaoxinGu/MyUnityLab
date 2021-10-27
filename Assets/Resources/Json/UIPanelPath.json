@@ -1,23 +1,23 @@
 {
-	"UIPathList": [
-		{
-			"UIName": "UIEntry",
-			"UIPath": "UI/Entry/UIEntry"
-		},
+    "UIPathList": [
+        {
+            "UIName": "UIEntry",
+            "UIPath": "UI/Entry/UIEntry"
+        },
 
-		{
-			"UIName": "UIMain",
-			"UIPath": "UI/Main/UIMain"
-		},
+        {
+            "UIName": "UIMain",
+            "UIPath": "UI/Main/UIMain"
+        },
 
-		{
-			"UIName": "UIMail",
-			"UIPath": "UI/Mail/UIMail"
-		},
+        {
+            "UIName": "UIMail",
+            "UIPath": "UI/Mail/UIMail"
+        },
 
-		{
-			"UIName": "UIBag",
-			"UIPath": "UI/Bag/UIBag"
-		}
-	]
+        {
+            "UIName": "UIBag",
+            "UIPath": "UI/Bag/UIBag"
+        }
+    ]
 }
